@@ -15,8 +15,8 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class VariationSuccessHandler extends MessageHandler {
-	private static final String CONTENT_REGEX_1 = "\\*\\*(.*)\\*\\* - Variations by <@\\d+> \\((.*?)\\)";
-	private static final String CONTENT_REGEX_2 = "\\*\\*(.*)\\*\\* - Variations \\(.*?\\) by <@\\d+> \\((.*?)\\)";
+	private static final String CONTENT_REGEX_1 = ConvertUtils.VARIATION_CONTENT_REGEX_1;
+	private static final String CONTENT_REGEX_2 = ConvertUtils.VARIATION_CONTENT_REGEX_2;
 
 	@Override
 	public void handle(DiscordInstance instance, MessageType messageType, DataObject message) {

@@ -17,9 +17,9 @@ import org.springframework.stereotype.Component;
  */
 @Component
 public class RerollSuccessHandler extends MessageHandler {
-	private static final String CONTENT_REGEX_1 = "\\*\\*(.*)\\*\\* - <@\\d+> \\((.*?)\\)";
-	private static final String CONTENT_REGEX_2 = "\\*\\*(.*)\\*\\* - Variations by <@\\d+> \\((.*?)\\)";
-	private static final String CONTENT_REGEX_3 = "\\*\\*(.*)\\*\\* - Variations \\(.*?\\) by <@\\d+> \\((.*?)\\)";
+	private static final String CONTENT_REGEX_1 = ConvertUtils.IMAGINE_CONTENT_REGEX;
+	private static final String CONTENT_REGEX_2 = ConvertUtils.VARIATION_CONTENT_REGEX_1;
+	private static final String CONTENT_REGEX_3 = ConvertUtils.VARIATION_CONTENT_REGEX_2;
 
 	@Override
 	public void handle(DiscordInstance instance, MessageType messageType, DataObject message) {

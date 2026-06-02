@@ -27,8 +27,8 @@ import java.util.regex.Pattern;
  */
 @Component
 public class UpscaleSuccessHandler extends MessageHandler {
-	private static final String CONTENT_REGEX_1 = "\\*\\*(.*)\\*\\* - Upscaled \\(.*?\\) by <@\\d+> \\((.*?)\\)";
-	private static final String CONTENT_REGEX_2 = "\\*\\*(.*)\\*\\* - Upscaled by <@\\d+> \\((.*?)\\)";
+	private static final String CONTENT_REGEX_1 = ConvertUtils.UPSCALE_CONTENT_REGEX_1;
+	private static final String CONTENT_REGEX_2 = ConvertUtils.UPSCALE_CONTENT_REGEX_2;
 	private static final String CONTENT_REGEX_U = "\\*\\*(.*)\\*\\* - Image #(\\d) <@\\d+>";
 
 	@Override

@@ -12,10 +12,11 @@ import org.springframework.stereotype.Component;
 /**
  * imagine消息处理.
  * 完成(create): **cat** - <@1012983546824114217> (relaxed)
+ * 完成(create): **cat** - <@1012983546824114217> [(Open on website for full quality)](url) (relaxed)
  */
 @Component
 public class ImagineSuccessHandler extends MessageHandler {
-	public static final String CONTENT_REGEX = "\\*\\*(.*)\\*\\* - <@\\d+> \\((.*?)\\)";
+	public static final String CONTENT_REGEX = ConvertUtils.IMAGINE_CONTENT_REGEX;
 
 	@Override
 	public int order() {

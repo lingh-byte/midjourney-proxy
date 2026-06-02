@@ -6,6 +6,7 @@ import eu.maxschuster.dataurl.DataUrl;
 import eu.maxschuster.dataurl.DataUrlSerializer;
 import eu.maxschuster.dataurl.IDataUrlSerializer;
 import lombok.experimental.UtilityClass;
+import lombok.extern.slf4j.Slf4j;
 
 import java.net.MalformedURLException;
 import java.util.ArrayList;
@@ -14,12 +15,23 @@ import java.util.List;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+@Slf4j
 @UtilityClass
 public class ConvertUtils {
 	/**
-	 * content正则匹配prompt和进度.
+	 * MJ 完成消息可能在 {@literal <@bot>} 与 (mode) 之间插入 markdown 链接，如 [(Open on website for full quality)](url)，
+	 * OPTIONAL_LINK 匹配这段可选内容。
 	 */
-	public static final String CONTENT_REGEX = ".*?\\*\\*(.*)\\*\\*.+<@\\d+> \\((.*?)\\)";
+	private static final String OPTIONAL_LINK = "\\s*(?:\\[.*?\\]\\(.*?\\)\\s*)?";
+	/** bot mention + optional link + (mode) */
+	private static final String BOT_MENTION_MODE = "<@\\d+>" + OPTIONAL_LINK + "\\((.*?)\\)";
+
+	public static final String CONTENT_REGEX = ".*?\\*\\*(.*)\\*\\*.+" + BOT_MENTION_MODE;
+	public static final String IMAGINE_CONTENT_REGEX = "\\*\\*(.*)\\*\\* - " + BOT_MENTION_MODE;
+	public static final String VARIATION_CONTENT_REGEX_1 = "\\*\\*(.*)\\*\\* - Variations by " + BOT_MENTION_MODE;
+	public static final String VARIATION_CONTENT_REGEX_2 = "\\*\\*(.*)\\*\\* - Variations \\(.*?\\) by " + BOT_MENTION_MODE;
+	public static final String UPSCALE_CONTENT_REGEX_1 = "\\*\\*(.*)\\*\\* - Upscaled \\(.*?\\) by " + BOT_MENTION_MODE;
+	public static final String UPSCALE_CONTENT_REGEX_2 = "\\*\\*(.*)\\*\\* - Upscaled by " + BOT_MENTION_MODE;
 
 	public static ContentParseData parseContent(String content) {
 		return parseContent(content, CONTENT_REGEX);
@@ -31,6 +43,9 @@ public class ConvertUtils {
 		}
 		Matcher matcher = Pattern.compile(regex).matcher(content);
 		if (!matcher.find()) {
+			if (content.contains("**") && content.contains("<@")) {
+				log.warn("Content looks like a MJ message but regex did not match. content: {}, regex: {}", content, regex);
+			}
 			return null;
 		}
 		ContentParseData parseData = new ContentParseData();
